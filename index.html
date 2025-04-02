@@ -5,11 +5,15 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h2>Talk to the Bot</h2>
+    <h2>Smart Chef</h2>
 
     <div id="chatbox">
       <div id="messages"></div>
       <div class="input-area">
+        <div class="quick-replies">
+          <button onclick="sendQuickReply('hi')">Hi</button>
+          <button onclick="sendQuickReply('hello')">Hello</button>
+        </div>
         <input id="userInput" type="text" placeholder="Type your message..." />
         <button onclick="sendMessage()">Send</button>
       </div>
@@ -18,24 +22,44 @@
     <script>
       async function sendMessage() {
         const input = document.getElementById("userInput");
-        const message = input.value;
+        const message = input.value.trim();
         if (!message) return;
 
         const messages = document.getElementById("messages");
         messages.innerHTML += `<div class="msg user"><b>You:</b> ${message}</div>`;
-        messages.innerHTML += `<div class="msg bot"><b>Bot:</b> ${data.reply}</div>`;
-        messages.scrollTop = messages.scrollHeight;
 
-        const response = await fetch("http://localhost:3000/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message }),
-        });
+        try {
+          const response = await fetch("http://localhost:3000/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message }),
+          });
 
-        const data = await response.json();
-        chatbox.innerHTML += `<div class="msg bot"><b>Bot:</b> ${data.reply}</div>`;
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          messages.innerHTML += `<div class="msg bot"><b>Bot:</b> ${data.reply}</div>`;
+          messages.scrollTop = messages.scrollHeight;
+        } catch (error) {
+          console.error("Fetch error:", error);
+          messages.innerHTML += `<div class="msg bot"><b>Bot:</b> Error: could not connect to server</div>`;
+        }
+
         input.value = "";
-        chatbox.scrollTop = chatbox.scrollHeight;
+      }
+      document
+        .getElementById("userInput")
+        .addEventListener("keypress", function (e) {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            sendMessage();
+          }
+        });
+      function sendQuickReply(text) {
+        document.getElementById("userInput").value = text;
+        sendMessage();
       }
     </script>
   </body>

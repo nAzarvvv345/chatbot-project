@@ -5,20 +5,20 @@ const dialogflow = require("@google-cloud/dialogflow");
 const uuid = require("uuid");
 
 const app = express();
-app.use(cors());
 app.use(bodyParser.json());
+app.use(cors());
 
-const sessionClient = new dialogflow.SessionsClient({
-  keyFilename: "./dialogflow-key.json",
-});
-
-const projectId = "dyplombot-cssd"; // ← сюди встав свій Project ID
+const PORT = process.env.PORT || 3000;
 
 app.post("/chat", async (req, res) => {
-  const message = req.body.message;
+  const { message } = req.body;
   const sessionId = uuid.v4();
+
+  const sessionClient = new dialogflow.SessionsClient({
+    keyFilename: "./dialogflow-key.json",
+  });
   const sessionPath = sessionClient.projectAgentSessionPath(
-    projectId,
+    "dyplombot-cssd",
     sessionId
   );
 
@@ -34,12 +34,14 @@ app.post("/chat", async (req, res) => {
 
   try {
     const responses = await sessionClient.detectIntent(request);
-    const result = responses[0].queryResult.fulfillmentText;
-    res.json({ reply: result });
+    const result = responses[0].queryResult;
+    res.json({ reply: result.fulfillmentText });
   } catch (error) {
     console.error("Dialogflow error:", error);
-    res.status(500).send("Error communicating with Dialogflow");
+    res.status(500).send("Error processing your request");
   }
 });
 
-app.listen(3000, () => console.log("Server running on http://localhost:3000"));
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
