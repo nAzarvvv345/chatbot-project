@@ -51,29 +51,30 @@ button {
 }
 .input-area {
   display: flex;
-  padding: 0;
   border-top: 1px solid #ccc;
   background-color: #fff;
   position: absolute;
-  bottom: 8mm;
+  bottom: 8px;
   left: 0;
   right: 0;
-  margin: 0 auto;
   padding: 0 10px;
+  height: 48px;
   box-sizing: border-box;
   align-items: center;
-  height: 48px;
 }
 
 .input-area input {
   flex: 1;
-  padding: 8px;
+  height: 100%;
+  padding: 0 8px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px 0 0 5px;
 }
+
 .input-area button {
-  padding: 8px 16px;
+  height: 100%;
+  padding: 0 16px;
   font-size: 16px;
   border: none;
   background-color: #0b5ed7;
@@ -81,6 +82,7 @@ button {
   border-radius: 0 5px 5px 0;
   cursor: pointer;
 }
+
 .input-area button:hover {
   background-color: #094db3;
 }
