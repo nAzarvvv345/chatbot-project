@@ -25,16 +25,18 @@ h2 {
 }
 
 #chatbox {
-  width: 90%;
-  max-width: 600px;
-  margin: 0 auto;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-  padding: 1%;
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 500px;
+  background: #ffffff;
+  color: #000;
+  border-radius: 15px;
   display: flex;
   flex-direction: column;
-  height: 500px;
+  padding-bottom: 60px; /* для відступу під input */
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
 .chat-box {
   flex: 1;
@@ -68,28 +70,26 @@ button {
   cursor: pointer;
 }
 .input-area {
-  display: flex;
-  align-items: center;
-  padding: 8px;
-  gap: 8px;
-  background-color: #fff;
   position: absolute;
-  bottom: 0;
+  bottom: 8px;
   left: 0;
   right: 0;
-  border-top: 1px solid #ccc;
-  border-radius: 0 0 15px 15px;
+  display: flex;
+  padding: 0 10px;
+  box-sizing: border-box;
+  gap: 8px;
+  align-items: center;
+  height: 44px;
 }
 
 .input-area input {
   flex: 1;
   height: 100%;
-  padding: 0 8px;
+  padding: 0 12px;
   font-size: 16px;
   border: 1px solid #ccc;
-  border-radius: 5px 0 0 5px;
+  border-radius: 8px 0 0 8px;
 }
-
 .input-area button {
   height: 100%;
   padding: 0 16px;
@@ -97,7 +97,7 @@ button {
   border: none;
   background-color: #0b5ed7;
   color: white;
-  border-radius: 0 5px 5px 0;
+  border-radius: 0 8px 8px 0;
   cursor: pointer;
 }
 
@@ -108,7 +108,7 @@ button {
 #messages {
   flex: 1;
   overflow-y: auto;
-  margin-bottom: 10px;
+  padding: 20px;
 }
 .quick-replies {
   margin: 10px;
