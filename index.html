@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dialogflow Chatbot</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h2>Talk to the Bot</h2>
+
+    <div id="chatbox">
+      <div id="messages"></div>
+      <div class="input-area">
+        <input id="userInput" type="text" placeholder="Type your message..." />
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+
+    <script>
+      async function sendMessage() {
+        const input = document.getElementById("userInput");
+        const message = input.value;
+        if (!message) return;
+
+        const messages = document.getElementById("messages");
+        messages.innerHTML += `<div class="msg user"><b>You:</b> ${message}</div>`;
+        messages.innerHTML += `<div class="msg bot"><b>Bot:</b> ${data.reply}</div>`;
+        messages.scrollTop = messages.scrollHeight;
+
+        const response = await fetch("http://localhost:3000/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message }),
+        });
+
+        const data = await response.json();
+        chatbox.innerHTML += `<div class="msg bot"><b>Bot:</b> ${data.reply}</div>`;
+        input.value = "";
+        chatbox.scrollTop = chatbox.scrollHeight;
+      }
+    </script>
+  </body>
+</html>
