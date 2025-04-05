@@ -15,7 +15,7 @@ app.post("/chat", async (req, res) => {
   const sessionId = uuid.v4();
 
   const sessionClient = new dialogflow.SessionsClient({
-    keyFilename: "./dialogflow-key.json",
+    keyFilename: "./DyplomProject/dialogflow-key.json",
   });
   const sessionPath = sessionClient.projectAgentSessionPath(
     "dyplombot-cssd",
