@@ -61,6 +61,22 @@
         document.getElementById("userInput").value = text;
         sendMessage();
       }
+      window.onload = function () {
+        fetch("/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message: "greeting" }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            addMessage("bot", data.reply);
+          });
+      };
+      window.addEventListener("load", () => {
+        sendMessageToBot("greeting");
+      });
     </script>
   </body>
 </html>
